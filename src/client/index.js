@@ -1,5 +1,40 @@
+import objectUtils from "./utils/objectUtils";
 import React from "react";
 import { render } from "react-dom";
-import App from "./App";
+import { createStore, applyMiddleware } from "redux";
+import reducer from "./reducers";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import App from "./components/App/App";
 
-render(<App />, document.getElementById("root"));
+const dev = process.env.NODE_ENV === "development";
+
+objectUtils();
+
+const logMW = store => next => {
+  return action => {
+    if (!action.type.endsWith("#null")) {
+      console.group(typeof action.type !== "undefined" ? action.type : "redux-thunk");
+      console.log("Before", store.getState());
+      console.log("Action", action);
+    }
+    const retVal = next(action);
+    if (!action.type.endsWith("#null")) {
+      console.log("After", store.getState());
+      console.groupEnd();
+    }
+    return retVal;
+  };
+};
+
+const store = createStore(reducer, dev ? applyMiddleware(logMW, thunk) : applyMiddleware(thunk));
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
+
+setInterval(() => {
+  store.dispatch({ type: "timer#null" });
+}, 1);

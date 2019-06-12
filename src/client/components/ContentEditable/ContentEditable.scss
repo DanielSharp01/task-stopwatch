@@ -1,0 +1,15 @@
+@import "../../theme.scss";
+
+.content-editable {
+  display: flex;
+  flex-direction: row;
+
+  div {
+    padding: 8px 12px;
+    color: $foreground;
+  }
+
+  input {
+    flex: 1;
+  }
+}

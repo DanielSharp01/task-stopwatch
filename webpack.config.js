@@ -1,4 +1,5 @@
 const nodeExternals = require("webpack-node-externals");
+const { DefinePlugin } = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const commonConfig = {
@@ -36,4 +37,11 @@ const clientConfig = {
   }
 };
 
-module.exports = [serverConfig, clientConfig];
+module.exports = (env, argv) => {
+  clientConfig.plugins.push(
+    new DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify(argv.mode)
+    })
+  );
+  return [serverConfig, clientConfig];
+};

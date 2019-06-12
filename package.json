@@ -5,9 +5,9 @@
   "main": "dist/main.js",
   "scripts": {
     "start": "node dist/main.js",
-    "watch": "webpack --mode=development --watch & nodemon dist/main.js",
-    "dev": "rm -rf dist && webpack --mode=development --progress",
-    "build": "rm -rf dist && webpack --mode=production --progress",
+    "watch": "webpack --mode development --watch & nodemon dist/main",
+    "dev": "rm -rf dist && webpack --mode development --progress",
+    "build": "rm -rf dist && webpack --mode production --progress",
     "stats": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist"
   },
   "keywords": [],
@@ -35,6 +35,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   }
 }

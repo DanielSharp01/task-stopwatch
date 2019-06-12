@@ -1,7 +1,10 @@
 import express from "express";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import App from "../client/App";
+import App from "../client/components/App/App";
+import { createStore } from "redux";
+import reducer from "../client/reducers";
+import { Provider } from "react-redux";
 const app = express();
 
 app.use("/task-stopwatch", express.static("public"));
@@ -23,7 +26,11 @@ app.use("/task-stopwatch", (req, res) => {
       <title>Job Dashboard</title>
     </head>
     <body>
-      <div id="root">${renderToString(<App />)}</div>
+      <div id="root">${renderToString(
+        <Provider store={createStore(reducer)}>
+          <App />
+        </Provider>
+      )}</div>
       <script src="/task-stopwatch/main.js"></script>
     </body>
   </html>`;

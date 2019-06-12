@@ -1,6 +1,9 @@
 $background: #161622;
 $foreground: #efefef;
 $brandColor: #1a5fad;
+$niceGreen: #37ad1a;
+$niceRed: #ad371a;
+$niceYellow: #ad971a;
 $elementBg: darken($background, 2%);
 
 body,
@@ -19,4 +22,58 @@ button {
 body {
   background: $background;
   color: $foreground;
+}
+
+@mixin hover($color) {
+  color: $color;
+
+  &:hover {
+    color: lighten($color, 30%);
+    text-shadow: 1px 0px lighten($color, 30%);
+  }
+
+  &:active {
+    color: lighten($color, 50%);
+    text-shadow: 2px 0px lighten($color, 50%);
+  }
+}
+
+a {
+  @include hover($brandColor);
+  text-decoration: none;
+}
+
+@mixin slick-button($color: $brandColor) {
+  @include hover($color);
+  display: inline-flex;
+  background: none;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  outline: none;
+
+  &:disabled {
+    opacity: 0.2;
+    cursor: auto;
+    &:hover {
+      color: $color;
+    }
+  }
+}
+
+button.slick {
+  @include slick-button();
+}
+
+button.slick.green {
+  @include slick-button($niceGreen);
+}
+
+button.slick.red {
+  @include slick-button($niceRed);
+}
+
+button.slick.yellow {
+  @include slick-button($niceYellow);
 }
