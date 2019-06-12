@@ -1,0 +1,22 @@
+$background: #161622;
+$foreground: #efefef;
+$brandColor: #1a5fad;
+$elementBg: darken($background, 2%);
+
+body,
+input,
+select,
+button {
+  font-family: "Open Sans";
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: $background;
+  color: $foreground;
+}
