@@ -4,12 +4,12 @@
   margin: 20px 30px;
   &.new-task {
     margin-top: 30px;
-    width: 30%;
+    width: 500px;
   }
 
   background: $elementBg;
   box-shadow: 0 2px 6px 2px rgba(3, 3, 3, 0.7);
-  width: 60%;
+  width: 1000px;
   padding: 6px;
   display: flex;
   flex-direction: row;
@@ -27,6 +27,11 @@
   .content-editable {
     font-size: 20px;
     flex: 1;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
   }
 
   button.slick {
