@@ -23,7 +23,7 @@ app.use("/task-stopwatch", (req, res) => {
         crossorigin="anonymous"
       />
       <link href="/task-stopwatch/style.css" rel="stylesheet" />
-      <title>Job Dashboard</title>
+      <title>Task Stopwatch</title>
     </head>
     <body>
       <div id="root">${renderToString(

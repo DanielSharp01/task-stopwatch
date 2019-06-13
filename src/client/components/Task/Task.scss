@@ -13,6 +13,7 @@
   padding: 6px;
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   input {
     font-size: 20px;
@@ -27,6 +28,31 @@
   .content-editable {
     font-size: 20px;
     flex: 1;
+  }
+
+  .times {
+    display: flex;
+    flex-direction: row;
+    span {
+      color: darken($foreground, 40%);
+      margin: 0 8px;
+    }
+
+    .vertical-line {
+      display: flex;
+      color: darken($foreground, 40%);
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    margin: 0px 16px;
+  }
+
+  .stopwatch {
+    width: 100px;
+    display: flex;
+    justify-content: flex-end;
   }
 
   span {

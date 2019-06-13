@@ -13,16 +13,12 @@ objectUtils();
 
 const logMW = store => next => {
   return action => {
-    if (!action.type.endsWith("#null")) {
-      console.group(typeof action.type !== "undefined" ? action.type : "redux-thunk");
-      console.log("Before", store.getState());
-      console.log("Action", action);
-    }
+    console.group(typeof action.type !== "undefined" ? action.type : "redux-thunk");
+    console.log("Before", store.getState());
+    console.log("Action", action);
     const retVal = next(action);
-    if (!action.type.endsWith("#null")) {
-      console.log("After", store.getState());
-      console.groupEnd();
-    }
+    console.log("After", store.getState());
+    console.groupEnd();
     return retVal;
   };
 };
@@ -34,7 +30,3 @@ render(
   </Provider>,
   document.getElementById("root")
 );
-
-setInterval(() => {
-  store.dispatch({ type: "timer#null" });
-}, 1);
