@@ -1,10 +1,22 @@
 $background: #161622;
 $foreground: #efefef;
-$brandColor: #1a5fad;
-$niceGreen: #37ad1a;
-$niceRed: #ad371a;
-$niceYellow: #ad971a;
 $elementBg: darken($background, 2%);
+
+// Nice colors
+$niceRed: #ad371a;
+$niceGreen: #37ad1a;
+$niceYellow: #ad971a;
+$niceBlue: #1a5fad;
+$niceOrange: #ad681a;
+$niceWhite: #bfc4ca;
+$niceGray: #616870;
+$niceBlack: #121213;
+$niceBrown: #503312;
+$niceOcean: #1aa8ad;
+$nicePurple: #941aad;
+$nicePink: #ad1a6b;
+
+$brandColor: $niceBlue;
 
 body,
 input,
@@ -26,15 +38,21 @@ body {
 
 @mixin hover($color) {
   color: $color;
+  transition: transform 0.2s ease;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+
+  &:disabled {
+    color: darken($color, 10%);
+  }
 
   &:hover {
     color: lighten($color, 30%);
-    text-shadow: 1px 0px lighten($color, 30%);
   }
 
   &:active {
     color: lighten($color, 50%);
-    text-shadow: 2px 0px lighten($color, 50%);
+    transform: scale(1.1);
   }
 }
 

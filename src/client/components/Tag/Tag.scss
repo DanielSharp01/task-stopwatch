@@ -1,0 +1,132 @@
+@import "../../theme.scss";
+
+.tag {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px 2px rgba(3, 3, 3, 0.7);
+  &.red {
+    background: darken($niceRed, 10%);
+  }
+  &.green {
+    background: darken($niceGreen, 10%);
+  }
+  &.yellow {
+    background: $niceYellow;
+  }
+  &.blue {
+    background: $niceBlue;
+  }
+  &.orange {
+    background: $niceOrange;
+  }
+  &.white {
+    background: $niceWhite;
+    .content-editable {
+      color: $niceBlack;
+      input {
+        color: $niceBlack;
+      }
+    }
+  }
+  &.gray {
+    background: $niceGray;
+  }
+  &.black {
+    background: $niceBlack;
+  }
+  &.brown {
+    background: $niceBrown;
+  }
+  &.ocean {
+    background: $niceOcean;
+  }
+  &.purple {
+    background: $nicePurple;
+  }
+  &.pink {
+    background: $nicePink;
+  }
+
+  .content-editable {
+    font-size: 14px;
+    flex: 1;
+
+    input {
+      font-size: 14px;
+      background: transparent;
+      outline: none;
+      border: none;
+      color: $foreground;
+      padding: 8px 12px;
+    }
+
+    button.slick {
+      margin: 0 8px;
+      font-size: 14px;
+    }
+  }
+
+  .color-picker {
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    bottom: -25%;
+    left: calc(-216px + 50%);
+    width: 432px;
+    background: $elementBg;
+
+    .item {
+      width: 32px;
+      height: 32px;
+      margin: 2px;
+
+      &.active {
+        outline-offset: 1px;
+        outline: 1px solid $niceYellow;
+      }
+
+      &.red {
+        background: darken($niceRed, 10%);
+      }
+      &.green {
+        background: darken($niceGreen, 10%);
+      }
+      &.yellow {
+        background: $niceYellow;
+      }
+      &.blue {
+        background: $niceBlue;
+      }
+      &.orange {
+        background: $niceOrange;
+      }
+      &.white {
+        background: $niceWhite;
+      }
+      &.gray {
+        background: $niceGray;
+      }
+      &.black {
+        background: $niceBlack;
+      }
+      &.brown {
+        background: $niceBrown;
+      }
+      &.ocean {
+        background: $niceOcean;
+      }
+      &.purple {
+        background: $nicePurple;
+      }
+      &.pink {
+        background: $nicePink;
+      }
+    }
+  }
+}

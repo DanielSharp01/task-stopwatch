@@ -3,13 +3,9 @@
 .content-editable {
   display: flex;
   flex-direction: row;
+  color: $foreground;
 
   div {
     padding: 8px 12px;
-    color: $foreground;
-  }
-
-  input {
-    flex: 1;
   }
 }

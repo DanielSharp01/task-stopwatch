@@ -1,33 +1,97 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./Task.scss";
+import ContentEditable from "../ContentEditable/ContentEditable";
+import { newTagsAddTag, newTagsChangeTagName, changeTagColor } from "../../actions/tags";
+import { randomColor } from "../../reducers/tags";
+import Tag from "../Tag/Tag";
 
-export default class NewTask extends Component {
+class NewTask extends Component {
   constructor(props) {
     super(props);
-    this.inputRef = React.createRef();
+    this.state = { newTask: "", newTag: false };
   }
 
   onKeyboard = e => {
     if (e.key === "Enter") {
       this.onStart();
     } else if (e.key === "Escape") {
-      this.inputRef.current.value = "";
+      this.setState({ newTask: "" });
     }
   };
 
   onStart = () => {
-    this.props.onStart(this.inputRef.current.value);
-    this.inputRef.current.value = "";
+    this.props.onStart(this.state.newTask);
+    this.setState({ newTask: "" });
+  };
+
+  onInputChange = e => {
+    this.setState({ newTask: e.target.value });
+  };
+
+  onClickAddTag = () => {
+    this.setState({ newTag: true, newTagColor: randomColor() });
+  };
+
+  onNewTagApply = value => {
+    if (value.trim().length === 0) return;
+    this.props.onAddTag(value, this.state.newTagColor);
+    this.setState({ newTag: false });
+  };
+
+  onNewTagCancel = value => {
+    this.setState({ newTag: false });
   };
 
   render() {
     return (
-      <div className="task new-task">
-        <input ref={this.inputRef} onKeyDown={this.onKeyboard} type="text" placeholder="New task" />
-        <button className="slick green" onClick={this.onStart}>
-          <i className="fas fa-play" />
-        </button>
+      <div className="task-container">
+        <div className="task new-task">
+          <input onKeyDown={this.onKeyboard} onChange={this.onInputChange} value={this.state.newTask} type="text" placeholder="New task" />
+          <button className="slick green" onClick={this.onStart} disabled={this.state.newTask.trim().length === 0}>
+            <i className="fas fa-play" />
+          </button>
+        </div>
+        <div className="tag-container">
+          {this.props.tags.map(tag => (
+            <Tag
+              key={tag.name}
+              {...tag}
+              onChange={value => this.props.onChangeTag(tag.name, value)}
+              onChangeColor={color => this.props.onChangeTagColor(tag.name, color)}
+            />
+          ))}
+          {this.state.newTag && (
+            <div className={["tag", this.state.newTagColor].join(" ")}>
+              <ContentEditable
+                text={""}
+                placeholder="Tag name"
+                startEditing={true}
+                onChange={this.onNewTagApply}
+                onCancel={this.onNewTagCancel}
+              />
+            </div>
+          )}
+          <button className="slick" onClick={this.onClickAddTag}>
+            <i className="fas fa-plus-circle" />
+          </button>
+        </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = ({ newTags, tags }) => ({
+  tags: newTags.map(tag => ({ name: tag, color: tags[tag].color }))
+});
+
+const mapDispatchToProps = dispatch => ({
+  onAddTag: (name, color) => dispatch(newTagsAddTag(name, color)),
+  onChangeTag: (name, nextName) => dispatch(newTagsChangeTagName(name, nextName)),
+  onChangeTagColor: (name, color) => dispatch(changeTagColor(name, color))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewTask);

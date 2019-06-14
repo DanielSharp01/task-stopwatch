@@ -4,14 +4,14 @@ import "./ContentEditable.scss";
 export default class ContentEditable extends Component {
   constructor(props) {
     super(props);
-    this.state = { editing: false };
+    this.state = { editing: this.props.startEditing ? true : false, editedText: this.props.text, requestedFocus: true };
     this.divRef = React.createRef();
     this.inputRef = React.createRef();
   }
 
   componentDidUpdate() {
-    if (this.inputRef.current && !this.inputRef.current.focusedAlready) {
-      this.inputRef.current.focusedAlready = true;
+    if (this.inputRef.current && this.state.requestedFocus) {
+      this.setState({ requestedFocus: false });
       this.inputRef.current.focus();
       this.inputRef.current.select();
     }
@@ -19,6 +19,12 @@ export default class ContentEditable extends Component {
 
   componentDidMount() {
     if (typeof document !== "undefined") document.addEventListener("mousedown", this.onDocumentClick, false);
+
+    if (this.inputRef.current && this.state.requestedFocus) {
+      this.setState({ requestedFocus: false });
+      this.inputRef.current.focus();
+      this.inputRef.current.select();
+    }
   }
 
   componentWillUnmount() {
@@ -34,7 +40,7 @@ export default class ContentEditable extends Component {
   };
 
   onStartEditing = () => {
-    this.setState({ editing: true, editedText: this.props.text });
+    this.setState({ editing: true, editedText: this.props.text, requestedFocus: true });
   };
 
   onInputChanged = e => {
@@ -48,6 +54,7 @@ export default class ContentEditable extends Component {
 
   onCancel = () => {
     this.setState({ editing: false });
+    if (this.props.onCancel) this.props.onCancel();
   };
 
   onKeyboard = e => {
@@ -65,7 +72,14 @@ export default class ContentEditable extends Component {
           <div onDoubleClick={this.onStartEditing}>{this.props.text}</div>
         ) : (
           <React.Fragment>
-            <input ref={this.inputRef} type="text" onChange={this.onInputChanged} value={this.state.editedText} placeholder="Task name" />
+            <input
+              ref={this.inputRef}
+              size={this.state.editedText.length || (this.props.placeholder && this.props.placeholder.length)}
+              type="text"
+              onChange={this.onInputChanged}
+              value={this.state.editedText}
+              placeholder={this.props.placeholder}
+            />
             <button onClick={this.onApply} className="slick green">
               <i className="fas fa-check" />
             </button>
