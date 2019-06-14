@@ -22,12 +22,16 @@ export default (state = [], action, newTags) => {
       } else return [...state, newTask];
     case ADD_TAG_ON_TASK:
       index = state.findIndex(task => task.id === action.id);
-      return [
-        ...state.slice(0, index),
-        Object.assign({}, state[index], { tags: [...state[index].tags, action.name] }),
-        ...state.slice(index + 1)
-      ];
+      return !state[index].tags.includes(action.name)
+        ? [
+            ...state.slice(0, index),
+            Object.assign({}, state[index], { tags: [...state[index].tags, action.name] }),
+            ...state.slice(index + 1)
+          ]
+        : state;
     case CHANGE_TAG_ON_TASK:
+      if (action.name === action.nextName) return state;
+
       index = state.findIndex(task => task.id === action.id);
       let nextTags = state[index].tags;
       if (!state[index].tags.includes(action.nextName) && action.nextName.trim().length > 0) {

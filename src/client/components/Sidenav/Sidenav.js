@@ -1,0 +1,84 @@
+import React from "react";
+import "./Sidenav.scss";
+
+export default function Sidenav() {
+  return (
+    <div className="sidenav">
+      <div className="scroll-area">
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+        <p>Something</p>
+      </div>
+    </div>
+  );
+}

@@ -41,9 +41,9 @@ class Task extends Component {
   };
 
   onNewTagApply = value => {
+    this.setState({ newTag: false });
     if (value.trim().length === 0) return;
     this.props.onAddTag(value, this.state.newTagColor);
-    this.setState({ newTag: false });
   };
 
   onNewTagCancel = value => {
@@ -73,30 +73,28 @@ class Task extends Component {
             </button>
           )}
         </div>
-        <div className="tag-container">
-          {tags.map(tag => (
-            <Tag
-              key={tag.name}
-              {...tag}
-              onChange={value => this.props.onChangeTag(tag.name, value)}
-              onChangeColor={color => this.props.changeTagColor(tag.name, color)}
+        {tags.map(tag => (
+          <Tag
+            key={tag.name}
+            {...tag}
+            onChange={value => this.props.onChangeTag(tag.name, value)}
+            onChangeColor={color => this.props.changeTagColor(tag.name, color)}
+          />
+        ))}
+        {this.state.newTag && (
+          <div className={["tag", this.state.newTagColor].join(" ")}>
+            <ContentEditable
+              text={""}
+              placeholder="Tag name"
+              startEditing={true}
+              onChange={this.onNewTagApply}
+              onCancel={this.onNewTagCancel}
             />
-          ))}
-          {this.state.newTag && (
-            <div className={["tag", this.state.newTagColor].join(" ")}>
-              <ContentEditable
-                text={""}
-                placeholder="Tag name"
-                startEditing={true}
-                onChange={this.onNewTagApply}
-                onCancel={this.onNewTagCancel}
-              />
-            </div>
-          )}
-          <button className="slick" onClick={this.onClickAddTag}>
-            <i className="fas fa-plus-circle" />
-          </button>
-        </div>
+          </div>
+        )}
+        <button className="slick add-tag" onClick={this.onClickAddTag}>
+          <i className="fas fa-plus-circle" />
+        </button>
       </div>
     );
   }

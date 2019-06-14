@@ -1,0 +1,17 @@
+main {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.task-list {
+  padding: 6px 3px 6px 0px;
+  flex: 1;
+  min-height: 0;
+
+  .scroll-area {
+    overflow-y: auto;
+    height: 100%;
+  }
+}

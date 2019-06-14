@@ -5,12 +5,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
+
+  button.slick.add-tag {
+    margin-left: 16px;
+    font-size: 24px;
+  }
 }
 
 .task {
   position: relative;
-  margin: 20px 30px;
+  margin: 4px 30px;
   &.new-task {
+    margin: 20px 30px;
     width: 500px;
 
     input {
@@ -85,16 +92,5 @@
   button.slick {
     width: 48px;
     font-size: 20px;
-  }
-}
-
-.tag-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  button.slick {
-    margin-left: 16px;
-    font-size: 24px;
   }
 }
