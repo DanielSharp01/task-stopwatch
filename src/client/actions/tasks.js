@@ -3,7 +3,7 @@ export const CHANGE_TASK = "CHANGE_TASK";
 export const STOP_TASK = "STOP_TASK";
 export const CONTINUE_TASK = "CONTINUE_TASK";
 export const ADD_TAG_ON_TASK = "ADD_TAG_ON_TASK";
-export const CHANGE_TAG_ON_TASK = "ADD_TAG_ON_TASK";
+export const CHANGE_TAG_ON_TASK = "CHANGE_TAG_ON_TASK";
 
 export function newTask(name) {
   return {

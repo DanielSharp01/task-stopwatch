@@ -29,9 +29,9 @@ export default (state = [], action, newTags) => {
       ];
     case CHANGE_TAG_ON_TASK:
       index = state.findIndex(task => task.id === action.id);
-      let nextTags = tags;
-      if (action.name !== action.nextName && action.nextName.trim().length > 0) {
-        let tagIndex = state.findIndex(tag => tag === action.name);
+      let nextTags = state[index].tags;
+      if (!state[index].tags.includes(action.nextName) && action.nextName.trim().length > 0) {
+        let tagIndex = state[index].tags.findIndex(tag => tag === action.name);
         nextTags = [...nextTags.slice(0, tagIndex), action.nextName, ...nextTags.slice(tagIndex + 1)];
       } else {
         nextTags = nextTags.filter(tag => tag !== action.name);
