@@ -44,7 +44,7 @@ export default class ContentEditable extends Component {
   };
 
   onInputChanged = e => {
-    this.setState({ editedText: e.target.value });
+    this.setState({ editedText: e.target.value, valid: false });
   };
 
   onApply = () => {
@@ -58,7 +58,8 @@ export default class ContentEditable extends Component {
   };
 
   onKeyboard = e => {
-    if (e.key === "Enter") {
+    let valid = !this.props.validate || this.props.validate(this.state.editedText);
+    if (e.key === "Enter" && valid) {
       this.onApply();
     } else if (e.key === "Escape") {
       this.onCancel();
@@ -66,6 +67,7 @@ export default class ContentEditable extends Component {
   };
 
   render() {
+    let valid = !this.props.validate || this.props.validate(this.state.editedText);
     return (
       <div className="content-editable" onKeyDown={this.onKeyboard} ref={this.divRef}>
         {!this.state.editing ? (
@@ -80,7 +82,7 @@ export default class ContentEditable extends Component {
               value={this.state.editedText}
               placeholder={this.props.placeholder}
             />
-            <button onClick={this.onApply} className="slick green">
+            <button onClick={this.onApply} disabled={!valid} className="slick green">
               <i className="fas fa-check" />
             </button>
             <button onClick={this.onCancel} className="slick red">

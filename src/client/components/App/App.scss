@@ -14,3 +14,10 @@
   overflow: hidden;
   align-items: stretch;
 }
+
+main {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

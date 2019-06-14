@@ -13,7 +13,7 @@ class NewTask extends Component {
   }
 
   onKeyboard = e => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && this.state.newTask.trim().length > 0) {
       this.onStart();
     } else if (e.key === "Escape") {
       this.setState({ newTask: "" });
@@ -21,7 +21,7 @@ class NewTask extends Component {
   };
 
   onStart = () => {
-    this.props.onStart(this.state.newTask);
+    this.props.onStart(this.state.newTask, this.props.tags.map(tag => tag.name));
     this.setState({ newTask: "" });
   };
 
@@ -85,7 +85,7 @@ const mapStateToProps = ({ newTags, tags }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onAddTag: (name, color) => dispatch(newTagsAddTag(name, color)),
+  onAddTag: (name, color, tags) => dispatch(newTagsAddTag(name, color)),
   onChangeTag: (name, nextName) => dispatch(newTagsChangeTagName(name, nextName)),
   onChangeTagColor: (name, color) => dispatch(changeTagColor(name, color))
 });

@@ -56,7 +56,7 @@ class Task extends Component {
     return (
       <div className="task-container">
         <div className="task">
-          <ContentEditable text={name} onChange={onChange} placeholder="Task name" />
+          <ContentEditable text={name} validate={str => str.trim().length > 0} onChange={onChange} placeholder="Task name" />
           <div className="times">
             <span>{formatTime(getTimeParts(start), "HH:mm:ss")}</span>
             <i className="vertical-line fas fa-arrows-alt-h" />

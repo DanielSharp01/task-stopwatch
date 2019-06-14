@@ -1,6 +1,28 @@
 export function getTimeParts(timestamp) {
-  let date = new Date(timestamp);
+  let date = typeof timestamp === "object" ? timestamp : new Date(timestamp);
   return {
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+    second: date.getSeconds(),
+    millisecond: date.getMilliseconds()
+  };
+}
+
+export function getDateParts(timestamp) {
+  let date = typeof timestamp === "object" ? timestamp : new Date(timestamp);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    date: date.getDate()
+  };
+}
+
+export function getDateTimeParts(timestamp) {
+  let date = typeof timestamp === "object" ? timestamp : new Date(timestamp);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    date: date.getDate(),
     hour: date.getHours(),
     minute: date.getMinutes(),
     second: date.getSeconds(),

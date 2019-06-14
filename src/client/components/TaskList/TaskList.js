@@ -8,7 +8,7 @@ import "./TaskList.scss";
 function TaskList({ tasks, onStart, onChange, onStop, onContinue, onAddTag, onChangeTag, onChangeTagColor }) {
   return (
     <main>
-      <NewTask onStart={name => onStart(name)} />
+      <NewTask onStart={onStart} />
       <div className="task-list">
         <div className="scroll-area">
           {tasks.map(task => (
@@ -28,12 +28,12 @@ function TaskList({ tasks, onStart, onChange, onStop, onContinue, onAddTag, onCh
   );
 }
 
-const mapStateToProps = ({ tasks }) => ({
-  tasks
+const mapStateToProps = ({ days, tasks }) => ({
+  tasks: days["2019-06-14"].tasks.map(id => tasks[id])
 });
 
 const mapDispatchToProps = dispatch => ({
-  onStart: name => dispatch(newTask(name)),
+  onStart: (name, tags) => dispatch(newTask(name, tags)),
   onChange: (id, name) => dispatch(changeTask(id, name)),
   onStop: id => dispatch(stopTask(id)),
   onContinue: id => dispatch(continueTask(id)),

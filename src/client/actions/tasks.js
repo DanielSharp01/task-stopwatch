@@ -1,14 +1,17 @@
+import uuid from "uuid/v4";
+
 export const NEW_TASK = "NEW_TASK";
 export const CHANGE_TASK = "CHANGE_TASK";
 export const STOP_TASK = "STOP_TASK";
-export const CONTINUE_TASK = "CONTINUE_TASK";
 export const ADD_TAG_ON_TASK = "ADD_TAG_ON_TASK";
 export const CHANGE_TAG_ON_TASK = "CHANGE_TAG_ON_TASK";
 
-export function newTask(name) {
+export function newTask(name, tags) {
   return {
     type: NEW_TASK,
-    name
+    tempId: uuid(),
+    name,
+    tags
   };
 }
 
@@ -28,17 +31,9 @@ export function stopTask(id) {
 }
 
 export function continueTask(id) {
-  return {
-    type: CONTINUE_TASK,
-    id
-  };
-}
-
-export function changeTaskTags(id, tagString) {
-  return {
-    type: CONTINUE_TASK,
-    id,
-    tagString
+  return (dispatch, getState) => {
+    const { tasks } = getState();
+    dispatch(newTask(tasks[id].name, tasks[id].tags));
   };
 }
 

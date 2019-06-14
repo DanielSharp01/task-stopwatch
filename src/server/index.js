@@ -5,11 +5,12 @@ import App from "../client/components/App/App";
 import { createStore } from "redux";
 import reducer from "../client/reducers";
 import { Provider } from "react-redux";
+import { StaticRouter } from "react-router-dom";
 const app = express();
 
 app.use("/task-stopwatch", express.static("public"));
 
-app.use("/task-stopwatch", (req, res) => {
+app.use("/task-stopwatch/:date?", (req, res) => {
   let html = `<!DOCTYPE html>
   <html lang="en">
     <head>
@@ -27,9 +28,11 @@ app.use("/task-stopwatch", (req, res) => {
     </head>
     <body>
       <div id="root">${renderToString(
-        <Provider store={createStore(reducer)}>
-          <App />
-        </Provider>
+        <StaticRouter location={req.url} context={{}}>
+          <Provider store={createStore(reducer)}>
+            <App />
+          </Provider>
+        </StaticRouter>
       )}</div>
       <script src="/task-stopwatch/main.js"></script>
     </body>

@@ -6,6 +6,7 @@ import reducer from "./reducers";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import App from "./components/App/App";
+import { BrowserRouter } from "react-router-dom";
 
 const dev = process.env.NODE_ENV === "development";
 
@@ -25,8 +26,10 @@ const logMW = store => next => {
 
 const store = createStore(reducer, dev ? applyMiddleware(logMW, thunk) : applyMiddleware(thunk));
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );

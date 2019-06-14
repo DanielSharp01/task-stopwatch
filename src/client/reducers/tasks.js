@@ -1,46 +1,40 @@
 import { NEW_TASK, CHANGE_TASK, STOP_TASK, CONTINUE_TASK, ADD_TAG_ON_TASK, CHANGE_TAG_ON_TASK } from "../actions/tasks";
 
-export default (state = [], action, newTags) => {
-  let index, newTask;
+export default (state = {}, action, newTags) => {
+  let id, newTask;
+  let nextState = { ...state };
   switch (action.type) {
     case NEW_TASK:
-      newTask = { id: state.length, name: action.name, start: Date.now(), tags: [...newTags] };
-      if (state.length > 0 && !state[state.length - 1].stop)
-        return [...state.slice(0, -1), Object.assign({}, state[state.length - 1], { stop: Date.now() }), newTask];
-      else return [...state, newTask];
+      newTask = { id: action.tempId, name: action.name, start: Date.now(), tags: [...action.tags] };
+      id = Object.keys(state).find(key => !state[key].stop);
+      if (id) {
+        nextState[id].stop = Date.now();
+      }
+      nextState[action.tempId] = newTask;
+      return nextState;
     case CHANGE_TASK:
-      index = state.findIndex(task => task.id === action.id);
-      return [...state.slice(0, index), Object.assign({}, state[index], { name: action.name }), ...state.slice(index + 1)];
+      nextState[action.id].name = action.name;
+      return nextState;
     case STOP_TASK:
-      index = typeof action.id !== "undefined" ? state.findIndex(task => task.id === action.id) : state.length - 1;
-      return [...state.slice(0, index), Object.assign({}, state[index], { stop: Date.now() }), ...state.slice(index + 1)];
-    case CONTINUE_TASK:
-      index = state.findIndex(task => task.id === action.id);
-      newTask = { id: state.length, name: state[index].name, running: true, start: Date.now(), tags: [...state[index].tags] };
-      if (state.length > 0 && !state[state.length - 1].stop) {
-        return [...state.slice(0, -1), Object.assign({}, state[state.length - 1], { stop: Date.now() }), newTask];
-      } else return [...state, newTask];
+      id = action.id || Object.keys(state).find(key => !state[key].stop);
+      nextState[id].stop = Date.now();
+      return nextState;
     case ADD_TAG_ON_TASK:
-      index = state.findIndex(task => task.id === action.id);
-      return !state[index].tags.includes(action.name)
-        ? [
-            ...state.slice(0, index),
-            Object.assign({}, state[index], { tags: [...state[index].tags, action.name] }),
-            ...state.slice(index + 1)
-          ]
-        : state;
+      nextState[action.id].tags = [...nextState[action.id].tags, action.name];
+      return nextState;
     case CHANGE_TAG_ON_TASK:
       if (action.name === action.nextName) return state;
 
-      index = state.findIndex(task => task.id === action.id);
-      let nextTags = state[index].tags;
-      if (!state[index].tags.includes(action.nextName) && action.nextName.trim().length > 0) {
-        let tagIndex = state[index].tags.findIndex(tag => tag === action.name);
+      let nextTags = nextState[action.id].tags;
+      if (!nextState[action.id].tags.includes(action.nextName) && action.nextName.trim().length > 0) {
+        let tagIndex = nextState[action.id].tags.findIndex(tag => tag === action.name);
         nextTags = [...nextTags.slice(0, tagIndex), action.nextName, ...nextTags.slice(tagIndex + 1)];
       } else {
         nextTags = nextTags.filter(tag => tag !== action.name);
       }
-      return [...state.slice(0, index), Object.assign({}, state[index], { tags: nextTags }), ...state.slice(index + 1)];
+
+      nextState[action.id].tags = nextTags;
+      return nextState;
     default:
       return state;
   }

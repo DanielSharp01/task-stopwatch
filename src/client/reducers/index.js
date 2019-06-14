@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
+import days from "./days";
 import tasks from "./tasks";
 import tags from "./tags";
 import newTags from "./newTags";
 
-export default (state = {}, action) => {
-  return {
-    tasks: tasks(state.tasks, action, state.newTags || []),
-    tags: tags(state.tags, action),
-    newTags: newTags(state.newTags, action)
-  };
-};
+export default combineReducers({
+  days,
+  tasks,
+  tags,
+  newTags
+});
