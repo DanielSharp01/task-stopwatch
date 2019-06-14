@@ -7,8 +7,11 @@ import reducer from "../client/reducers";
 import { Provider } from "react-redux";
 import { StaticRouter } from "react-router-dom";
 const app = express();
+import apiRouter from "./api";
 
 app.use("/task-stopwatch", express.static("public"));
+
+app.use("/task-stopwatch/api", apiRouter);
 
 app.use("/task-stopwatch/:date?", (req, res) => {
   let html = `<!DOCTYPE html>
