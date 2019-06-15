@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./Task.scss";
 import ContentEditable from "../ContentEditable/ContentEditable";
-import { getTimeParts, getDurationParts, formatTime } from "../../utils/timeFormat";
+import { getTimeParts, getDurationParts, formatTime } from "../../../utils/timeFormat";
 import { randomColor } from "../../reducers/tags";
 import Tag from "../Tag/Tag";
 import { changeTagColor } from "../../actions/tags";

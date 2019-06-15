@@ -1,3 +1,8 @@
 export default () => (req, res, next) => {
-  res.send("render tags MW");
+  res.apiSend(
+    res.locals.tags.map(({ name, color }) => ({
+      name,
+      color
+    }))
+  );
 };

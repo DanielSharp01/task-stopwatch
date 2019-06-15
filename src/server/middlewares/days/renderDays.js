@@ -1,3 +1,3 @@
 export default () => (req, res, next) => {
-  res.send("render days MW");
+  res.apiSend(res.locals.days.map(({ dateString }) => dateString));
 };

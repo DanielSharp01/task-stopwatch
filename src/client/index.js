@@ -1,4 +1,4 @@
-import objectUtils from "./utils/objectUtils";
+import objectUtils from "../utils/objectUtils";
 import React from "react";
 import { render } from "react-dom";
 import { createStore, applyMiddleware } from "redux";
