@@ -40,7 +40,7 @@ export default class ContentEditable extends Component {
   };
 
   onStartEditing = () => {
-    this.setState({ editing: true, editedText: this.props.text, requestedFocus: true });
+    if (!this.props.disabled) this.setState({ editing: true, editedText: this.props.text, requestedFocus: true });
   };
 
   onInputChanged = e => {

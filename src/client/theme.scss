@@ -46,11 +46,11 @@ body {
     color: darken($color, 10%);
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: lighten($color, 30%);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     color: lighten($color, 50%);
     transform: scale(1.1);
   }
@@ -78,9 +78,6 @@ a {
   &:disabled {
     opacity: 0.2;
     cursor: auto;
-    &:hover {
-      color: $color;
-    }
   }
 }
 

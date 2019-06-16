@@ -15,11 +15,13 @@ import {
   createTagOnTask,
   changeTagOnTask
 } from "./middlewares/tasks";
+
 import Day from "./models/Day";
 import Task from "./models/Task";
 import Tag from "./models/Tag";
 
 const objectRepository = { Day, Task, Tag };
+
 const router = Router();
 
 router.use(apiFormat());
@@ -30,7 +32,7 @@ router.get(`/tags`, apiAuth(), getTags(objectRepository), renderTags());
 router.get(`/tags/:name`, apiAuth(), getTag(objectRepository), renderTag());
 router.patch(`/tags/:name`, apiAuth(), getTag(objectRepository), changeTagColor(), renderTag());
 
-router.get(`/days/:dateStr`, apiAuth(), getTasksForDay(objectRepository), renderTasks());
+router.get(`/days/:dateString`, apiAuth(), getTasksForDay(objectRepository), renderTasks());
 
 router.post(`/tasks`, apiAuth(), createTask(objectRepository), renderTask());
 router.get(`/tasks/:id`, apiAuth(), getTask(objectRepository), renderTask());
@@ -38,8 +40,8 @@ router.patch(`/tasks/:id`, apiAuth(), getTask(objectRepository), changeTask(), r
 router.patch(`/tasks/:id/stop`, apiAuth(), getTask(objectRepository), stopTask(), renderTask());
 router.delete(`/tasks/:id`, apiAuth(), getTask(objectRepository), deleteTask(), renderTask());
 
-router.post(`/tasks/:id/tags`, apiAuth(), getTask(objectRepository), createTagOnTask(objectRepository), renderTask());
-router.patch(`/tasks/:id/tags/:name`, apiAuth(), getTask(objectRepository), changeTagOnTask(objectRepository), renderTask());
+router.post(`/tasks/:id/tags`, apiAuth(), getTask(objectRepository), createTagOnTask(objectRepository), renderTag());
+router.patch(`/tasks/:id/tags/:name`, apiAuth(), getTask(objectRepository), changeTagOnTask(objectRepository), renderTag());
 
 router.use((req, res) => res.status(404).send());
 

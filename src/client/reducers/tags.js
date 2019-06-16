@@ -1,4 +1,4 @@
-import { NEW_TAGS_ADD_TAG, NEW_TAGS_CHANGE_TAG_NAME, CHANGE_TAG_COLOR } from "../actions/tags";
+import { NEW_TAGS_ADD_TAG, NEW_TAGS_CHANGE_TAG_NAME, CHANGE_TAG_COLOR, RECIEVE_TAG_RESPONSE } from "../actions/tags";
 import { ADD_TAG_ON_TASK, CHANGE_TAG_ON_TASK, NEW_TASK, CONTINUE_TASK } from "../actions/tasks";
 
 export const colors = ["red", "green", "blue", "yellow", "orange", "white", "gray", "black", "brown", "ocean", "purple", "pink"];
@@ -28,6 +28,9 @@ export default (state = {}, action) => {
       return nextTags;
     case CHANGE_TAG_COLOR:
       nextTags[action.name].color = action.nextColor;
+      return nextTags;
+    case RECIEVE_TAG_RESPONSE:
+      nextTags[action.tag.name] = action.tag;
       return nextTags;
     default:
       return state;

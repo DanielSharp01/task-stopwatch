@@ -47,21 +47,36 @@ class NewTask extends Component {
     return (
       <div className="task-container">
         <div className="task new-task">
-          <input onKeyDown={this.onKeyboard} onChange={this.onInputChange} value={this.state.newTask} type="text" placeholder="New task" />
-          <button className="slick green" onClick={this.onStart} disabled={this.state.newTask.trim().length === 0}>
-            <i className="fas fa-play" />
-          </button>
+          {!this.props.hidden ? (
+            <React.Fragment>
+              <input
+                onKeyDown={this.onKeyboard}
+                onChange={this.onInputChange}
+                value={this.state.newTask}
+                type="text"
+                placeholder="New task"
+              />
+              <button className="slick green" onClick={this.onStart} disabled={this.state.newTask.trim().length === 0}>
+                <i className="fas fa-play" />
+              </button>
+            </React.Fragment>
+          ) : (
+            <span>
+              <i className="fas fa-exclamation-triangle" /> You can't start tasks on this day anymore!
+            </span>
+          )}
         </div>
 
-        {this.props.tags.map(tag => (
-          <Tag
-            key={tag.name}
-            {...tag}
-            onChange={value => this.props.onChangeTag(tag.name, value)}
-            onChangeColor={color => this.props.onChangeTagColor(tag.name, color)}
-          />
-        ))}
-        {this.state.newTag && (
+        {!this.props.hidden &&
+          this.props.tags.map(tag => (
+            <Tag
+              key={tag.name}
+              {...tag}
+              onChange={value => this.props.onChangeTag(tag.name, value)}
+              onChangeColor={color => this.props.onChangeTagColor(tag.name, color)}
+            />
+          ))}
+        {!this.props.hidden && this.state.newTag && (
           <div className={["tag", this.state.newTagColor].join(" ")}>
             <ContentEditable
               text={""}
@@ -72,9 +87,11 @@ class NewTask extends Component {
             />
           </div>
         )}
-        <button className="slick add-tag" onClick={this.onClickAddTag}>
-          <i className="fas fa-plus-circle" />
-        </button>
+        {!this.props.hidden && (
+          <button className="slick add-tag" onClick={this.onClickAddTag}>
+            <i className="fas fa-plus-circle" />
+          </button>
+        )}
       </div>
     );
   }

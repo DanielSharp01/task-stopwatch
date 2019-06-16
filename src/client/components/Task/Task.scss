@@ -19,6 +19,8 @@
   &.new-task {
     margin: 20px 30px;
     flex: 0 1 500px;
+    color: $niceYellow;
+    font-size: 20px;
 
     input {
       font-size: 20px;
@@ -28,6 +30,10 @@
       color: $foreground;
       padding: 8px 12px;
       flex: 1;
+    }
+
+    .fa-exclamation-triangle {
+      margin-right: 8px;
     }
   }
 

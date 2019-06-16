@@ -1,12 +1,12 @@
 import objectUtils from "../utils/objectUtils";
 import React from "react";
-import { render } from "react-dom";
+import { hydrate } from "react-dom";
 import { createStore, applyMiddleware } from "redux";
 import reducer from "./reducers";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-import App from "./components/App/App";
 import { BrowserRouter } from "react-router-dom";
+import Routes from "./components/Routes/Routes";
 
 const dev = process.env.NODE_ENV === "development";
 
@@ -24,11 +24,11 @@ const logMW = store => next => {
   };
 };
 
-const store = createStore(reducer, dev ? applyMiddleware(logMW, thunk) : applyMiddleware(thunk));
-render(
+const store = createStore(reducer, window.__INITIAL_STATE__, dev ? applyMiddleware(logMW, thunk) : applyMiddleware(thunk));
+hydrate(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <Routes />
     </Provider>
   </BrowserRouter>,
   document.getElementById("root")

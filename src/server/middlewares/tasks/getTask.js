@@ -6,7 +6,9 @@ export default objectRepository => async (req, res, next) => {
   if (!req.params.id) return next({ status: 400, message: "No id param" });
 
   try {
-    res.locals.task = await Task.findOne({ userId: req.userId, _id: req.params.id }).populate("tags");
+    res.locals.task = await Task.findOne({ userId: req.userId, _id: req.params.id })
+      .populate("tags")
+      .exec();
   } catch (err) {
     return next({ status: 500 });
   }

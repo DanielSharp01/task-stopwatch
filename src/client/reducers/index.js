@@ -8,5 +8,6 @@ export default combineReducers({
   days,
   tasks,
   tags,
-  newTags
+  newTags,
+  username: (state = "not seen", action) => state
 });

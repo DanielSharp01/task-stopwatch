@@ -1,38 +1,51 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import NewTask from "../Task/NewTask";
 import Task from "../Task/Task";
-import { newTask, changeTask, stopTask, continueTask, addTagOnTask, changeTagOnTask } from "../../actions/tasks";
+import { fetchTasks, newTask, changeTask, stopTask, continueTask, addTagOnTask, changeTagOnTask } from "../../actions/tasks";
 import "./TaskList.scss";
 
-function TaskList({ tasks, onStart, onChange, onStop, onContinue, onAddTag, onChangeTag, onChangeTagColor }) {
-  return (
-    <main>
-      <NewTask onStart={onStart} />
-      <div className="task-list">
-        <div className="scroll-area">
-          {tasks.map(task => (
-            <Task
-              {...task}
-              key={task.id}
-              onChange={name => onChange(task.id, name)}
-              onStop={() => onStop(task.id)}
-              onContinue={() => onContinue(task.id)}
-              onAddTag={(name, color) => onAddTag(task.id, name, color)}
-              onChangeTag={(name, nextName) => onChangeTag(task.id, name, nextName)}
-            />
-          ))}
+class TaskList extends Component {
+  componentDidUpdate() {
+    if (!this.props.loaded) {
+      console.log("Does it even try");
+      this.props.fetchTasks();
+    }
+  }
+  render() {
+    const { tasks, onStart, onChange, onStop, onContinue, onAddTag, onChangeTag, readOnly } = this.props;
+    return (
+      <main>
+        {<NewTask hidden={readOnly} onStart={onStart} />}
+        <div className="task-list">
+          <div className="scroll-area">
+            {tasks.map(task => (
+              <Task
+                {...task}
+                readOnly={readOnly}
+                key={task.id}
+                onChange={name => onChange(!task.saved ? null : task.id, name)}
+                onStop={() => onStop(!task.saved ? null : task.id)}
+                onContinue={() => onContinue(!task.saved ? null : task.id)}
+                onAddTag={(name, color) => onAddTag(!task.saved ? null : task.id, name, color)}
+                onChangeTag={(name, nextName) => onChangeTag(!task.saved ? null : task.id, name, nextName)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
-  );
+      </main>
+    );
+  }
 }
 
-const mapStateToProps = ({ days, tasks }) => ({
-  tasks: days["2019-06-14"].tasks.map(id => tasks[id])
+const mapStateToProps = ({ days, tasks }, { dateString, todayDateString }) => ({
+  tasks: days[dateString].loaded ? days[dateString].tasks.filter(id => !tasks[id].disabled).map(id => tasks[id]) : [],
+  loaded: days[dateString].loaded,
+  readOnly: dateString !== todayDateString
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { dateString }) => ({
+  fetchTasks: () => dispatch(fetchTasks(dateString)),
   onStart: (name, tags) => dispatch(newTask(name, tags)),
   onChange: (id, name) => dispatch(changeTask(id, name)),
   onStop: id => dispatch(stopTask(id)),

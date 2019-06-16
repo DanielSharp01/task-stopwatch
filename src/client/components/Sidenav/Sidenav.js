@@ -18,7 +18,8 @@ const monthNames = [
   "December"
 ];
 
-function Sidenav({ days }) {
+function Sidenav(props) {
+  const { days } = props;
   let months = days.reduce((acc, day) => {
     if (acc.length === 0 || acc[0].month !== day.month || acc[0].year !== day.year) {
       acc.unshift({ year: day.year, month: day.month, days: [{ number: day.day, str: day.str }] });

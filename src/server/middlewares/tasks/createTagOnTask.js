@@ -13,8 +13,9 @@ export default objectRepository => async (req, res, next) => {
     tag.color = req.body.color;
     promises.push(tag.save());
   }
+  res.locals.tag = tag;
 
-  res.locals.task.tags.push(tag);
+  if (res.locals.task.tags.findIndex(t => t.id === tag.id) === -1) res.locals.task.tags.push(tag);
   promises.push(res.locals.task.save());
   try {
     await Promise.all(promises);
