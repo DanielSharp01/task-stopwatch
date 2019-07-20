@@ -4,6 +4,8 @@ import NewTask from "../Task/NewTask";
 import Task from "../Task/Task";
 import { fetchTasks, newTask, changeTask, stopTask, continueTask, addTagOnTask, changeTagOnTask } from "../../actions/tasks";
 import "./TaskList.scss";
+import Modules from "../Modules/Modules";
+import { formatTime, getDateParts } from "../../../utils/timeFormat";
 
 class TaskList extends Component {
   componentDidUpdate() {
@@ -13,10 +15,11 @@ class TaskList extends Component {
     }
   }
   render() {
-    const { tasks, onStart, onChange, onStop, onContinue, onAddTag, onChangeTag, readOnly } = this.props;
+    const { tasks, onStart, onChange, onStop, onContinue, onAddTag, onChangeTag, readOnly, dateString } = this.props;
     return (
       <main>
         {<NewTask hidden={readOnly} onStart={onStart} />}
+        <Modules dateString={dateString} />
         <div className="task-list">
           <div className="scroll-area">
             {tasks.map(task => (
@@ -38,11 +41,14 @@ class TaskList extends Component {
   }
 }
 
-const mapStateToProps = ({ days, tasks }, { dateString, todayDateString }) => ({
-  tasks: days[dateString].loaded ? days[dateString].tasks.filter(id => !tasks[id].disabled).map(id => tasks[id]) : [],
-  loaded: days[dateString].loaded,
-  readOnly: dateString !== todayDateString
-});
+const mapStateToProps = ({ days, tasks }, { dateString }) => {
+  const todayDateString = formatTime(getDateParts(Date.now()), "YYYY-MM-DD");
+  return {
+    tasks: days[dateString].loaded ? days[dateString].tasks.filter(id => !tasks[id].disabled).map(id => tasks[id]) : [],
+    loaded: days[dateString].loaded,
+    readOnly: dateString !== todayDateString
+  };
+};
 
 const mapDispatchToProps = (dispatch, { dateString }) => ({
   fetchTasks: () => dispatch(fetchTasks(dateString)),

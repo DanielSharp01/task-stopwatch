@@ -46,11 +46,7 @@ export default class Tag extends Component {
         {this.state.pickingColor && (
           <div className="color-picker" ref={this.pickerDivRef}>
             {colors.map(color => (
-              <div
-                key={color}
-                className={["item", color, this.props.color === color ? "active" : ""].join(" ")}
-                onClick={() => this.pickColor(color)}
-              />
+              <div key={color} className={["item", color, this.props.color === color ? "active" : ""].join(" ")} onClick={() => this.pickColor(color)} />
             ))}
           </div>
         )}

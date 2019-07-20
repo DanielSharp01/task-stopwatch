@@ -1,0 +1,11 @@
+.modules {
+  display: flex;
+  flex-direction: column;
+}
+
+.module {
+  margin: 6px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
