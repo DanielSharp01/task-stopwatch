@@ -7,7 +7,7 @@ function Modules({ dateString, tags }) {
   return (
     <div className="modules">
       {tags.map(tag => (
-        <TagTimeModule tag={tag} dateString={dateString} />
+        <TagTimeModule key={tag} tag={tag} dateString={dateString} />
       ))}
     </div>
   );
