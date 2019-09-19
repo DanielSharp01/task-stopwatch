@@ -7,5 +7,6 @@ export default mongoose.createConnection(process.env.MONGOCONN.replace("<DB>", "
 export const accountsConnection = mongoose.createConnection(process.env.MONGOCONN.replace("<DB>", "accounts"), {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useUnifiedTopology: true
 });
