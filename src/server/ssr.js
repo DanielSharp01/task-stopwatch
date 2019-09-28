@@ -8,71 +8,41 @@ import { StaticRouter } from "react-router-dom";
 import apiAuth from "./middlewares/apiAuth";
 import serialize from "serialize-javascript";
 
-import { getDays, getTasksForDay, renderDays } from "./middlewares/days";
 import { getTags, renderTags } from "./middlewares/tags";
-import { renderTasks } from "./middlewares/tasks";
+import { getTasks, renderTasks } from "./middlewares/tasks";
 
 import User from "./models/User";
-import Day from "./models/Day";
 import Task from "./models/Task";
 import Tag from "./models/Tag";
 
 import { formatTime, getDateParts } from "../utils/timeFormat";
 import Routes from "../client/components/Routes/Routes";
 
-const objectRepository = { Day, Task, Tag };
+import { callMiddlewareChainAsync } from "../utils/mwChain";
 
-function callMiddlewareAsync(middleware, req, res) {
-  return new Promise((resolve, reject) => {
-    middleware(req, res, err => {
-      if (err) reject(err);
-      else resolve();
-    });
-  });
-}
-
-function callMiddlewareChainAsync(req, res, ...middlewares) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      res.cookie = () => {};
-      res.locals = {};
-      res.apiSend = json => {
-        return resolve(json);
-      };
-      for (let middleware of middlewares) {
-        await callMiddlewareAsync(middleware, req, res);
-      }
-      resolve();
-    } catch (err) {
-      console.error(err);
-      reject(err);
-    }
-  });
-}
+const objectRepository = { Task, Tag };
 
 async function getInitialState(req, dateString) {
   let initialState = {};
 
-  let days = await callMiddlewareChainAsync(req, {}, apiAuth(), getDays(objectRepository), renderDays());
-  initialState.days = days.reduce((acc, key) => {
-    acc[key] = { lodaded: false };
+  const allTasks = await objectRepository.Task.find({ userId: req.userId });
+  const days = allTasks.reduce((acc, task) => {
+    const key = formatTime(getDateParts(task.start), "YYYY-MM-DD");
+    if (!acc[key]) acc[key] = { loaded: false };
     return acc;
   }, {});
-  if (!days[dateString]) initialState.days[dateString] = { tasks: [] };
 
-  let tasks = await callMiddlewareChainAsync(
-    Object.assign({}, req, { params: { dateString } }),
-    {},
-    apiAuth(),
-    getTasksForDay(objectRepository),
-    renderTasks()
-  );
-
+  req.params.date = dateString;
+  let tasks = await callMiddlewareChainAsync(req, {}, apiAuth(), getTasks(objectRepository, "day"), renderTasks());
+  initialState.days = days;
+  if (!initialState.days[dateString]) initialState.days[dateString] = { loaded: false };
+  const todayDateString = formatTime(getDateParts(new Date()), "YYYY-MM-DD");
+  if (!initialState.days[todayDateString]) initialState.days[todayDateString] = { loaded: false };
   initialState.days[dateString].tasks = tasks.map(task => task.id);
   initialState.days[dateString].loaded = true;
 
   initialState.tasks = tasks.reduce((acc, task) => {
-    acc[task.id] = Object.assign({}, task, { saved: true });
+    acc[task.id] = Object.assign({ ...task }, { saved: true });
     return acc;
   }, {});
 

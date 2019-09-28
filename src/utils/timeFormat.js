@@ -129,10 +129,7 @@ export function formatTime({ year, month, date, hour, minute, second, millisecon
     for (let token of tokens) {
       let type = tokenTypes[token.type];
       if (token.type === "optional") {
-        let { timeString: str, nonZeroNonConstant } = formatTimeTokens(
-          { year, month, date, hour, minute, second, millisecond },
-          token.children
-        );
+        let { timeString: str, nonZeroNonConstant } = formatTimeTokens({ year, month, date, hour, minute, second, millisecond }, token.children);
         if (nonZeroNonConstant) {
           timeString += str;
           nonZeroNonConstant = true;
@@ -163,4 +160,18 @@ export function formatTime({ year, month, date, hour, minute, second, millisecon
   }
 
   return formatTimeTokens({ year, month, date, hour, minute, second, millisecond }, tokens).timeString;
+}
+
+export function yyyymmdd(string) {
+  const spl = string.split("-");
+  let year, month, date;
+  if (spl.length > 0) year = parseInt(spl[0]);
+  if (spl.length > 1) month = parseInt(spl[1]);
+  if (spl.length > 2) date = parseInt(spl[2]);
+  return { year, month, date };
+}
+
+export function packDate(dateParts) {
+  const { year, month, date, hour, minute, second, millisecond } = dateParts;
+  return new Date(year || 1900, month ? month - 1 : 0, date || 1, hour || 0, minute || 0, second || 0, millisecond || 0);
 }

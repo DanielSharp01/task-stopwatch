@@ -24,7 +24,7 @@ class Task extends Component {
     requestAnimationFrame(this.rerender);
   };
 
-  componentWillUpdate(nextProps, nextState) {
+  componentDidUpdate(nextProps, nextState) {
     if (this.handle && nextProps.stop) {
       cancelAnimationFrame(this.handle);
     }
@@ -56,13 +56,7 @@ class Task extends Component {
     return (
       <div className="task-container">
         <div className="task">
-          <ContentEditable
-            text={name}
-            disabled={!saved}
-            validate={str => str.trim().length > 0}
-            onChange={onChange}
-            placeholder="Task name"
-          />
+          <ContentEditable text={name} disabled={!saved} validate={str => str.trim().length > 0} onChange={onChange} placeholder="Task name" />
           <div className="times">
             <span>{formatTime(getTimeParts(start), "HH:mm:ss")}</span>
             <i className="vertical-line fas fa-arrows-alt-h" />
@@ -89,13 +83,7 @@ class Task extends Component {
         ))}
         {this.state.newTag && (
           <div className={["tag", this.state.newTagColor].join(" ")}>
-            <ContentEditable
-              text={""}
-              placeholder="Tag name"
-              startEditing={true}
-              onChange={this.onNewTagApply}
-              onCancel={this.onNewTagCancel}
-            />
+            <ContentEditable text={""} placeholder="Tag name" startEditing={true} onChange={this.onNewTagApply} onCancel={this.onNewTagCancel} />
           </div>
         )}
         <button className="slick add-tag" disabled={!saved} onClick={this.onClickAddTag}>

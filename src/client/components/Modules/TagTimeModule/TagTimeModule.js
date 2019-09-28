@@ -19,7 +19,7 @@ class TagTimeModule extends React.Component {
     requestAnimationFrame(this.rerender);
   };
 
-  componentWillUpdate(nextProps, nextState) {
+  componentDidUpdate(nextProps, nextState) {
     if (this.handle && nextProps.stopped) {
       cancelAnimationFrame(this.handle);
     }

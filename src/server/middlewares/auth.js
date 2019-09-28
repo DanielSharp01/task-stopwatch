@@ -20,7 +20,7 @@ module.exports = (setRedirect = true, redirect = true) => (req, res, next) => {
   const { authed, userId } = checkToken(req);
   req.authed = authed;
   if (req.authed) {
-    req.userId = userId;
+    req.userId = new mongoose.Types.ObjectId(userId);
     refreshCookie(req, res);
     return next();
   } else {

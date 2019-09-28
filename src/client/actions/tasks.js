@@ -13,7 +13,7 @@ export const CHANGE_TAG_ON_TASK = "CHANGE_TAG_ON_TASK";
 export function fetchTasks(dateString) {
   return async (dispatch, getState) => {
     try {
-      let result = await fetch(`/task-stopwatch/api/days/${dateString}`);
+      let result = await fetch(`/task-stopwatch/api/tasks/day/${dateString}`);
       let json = await result.json();
       dispatch(recieveTasks(dateString, json.result));
     } catch (err) {
@@ -47,7 +47,7 @@ export function newTask(name, tags) {
       let stopId = Object.keys(tasks).find(key => !tasks[key].stop);
       if (stopId) dispatch(stopTask(stopId));
       dispatch(newTaskStore(tempId, name, now.getTime(), tags));
-      let result = await fetch(`/task-stopwatch/api/tasks/`, {
+      let result = await fetch(`/task-stopwatch/api/tasks/start`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -191,6 +191,7 @@ export function addTagOnTask(id, name, color) {
         })
       });
       let json = await result.json();
+      console.log(json);
       dispatch(recieveTagResponse(json.result));
     } catch (err) {
       dispatch(changeTagOnTaskStore(id, name, ""));
