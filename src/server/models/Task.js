@@ -6,7 +6,6 @@ const TaskSchema = new Schema({
   name: { type: String, required: true },
   start: { type: Date, required: true },
   stop: { type: Date },
-  checked: Boolean,
   disabled: Boolean,
   tags: [
     {

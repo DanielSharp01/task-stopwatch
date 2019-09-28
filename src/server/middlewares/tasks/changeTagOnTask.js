@@ -21,7 +21,7 @@ export default objectRepository => async (req, res, next) => {
 
   let index = res.locals.task.tags.findIndex(tag => tag.name === req.params.name);
 
-  if (index === -1) return next({ status: 400, message: "No tag on task" });
+  if (index === -1) return next({ status: 400, message: "No such tag on task" });
 
   if (tag !== false && res.locals.task.tags.findIndex(t => t.id === tag.id) === -1) {
     res.locals.task.tags = [...res.locals.task.tags.slice(0, index), tag, ...res.locals.task.tags.slice(index + 1)];

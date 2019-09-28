@@ -4,7 +4,8 @@ import appConnection from "../db";
 const TagSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, required: true },
   name: { type: String, required: true },
-  color: String
+  color: String,
+  disabled: Boolean
 });
 
 TagSchema.statics.findOrCreate = async function({ userId, name }) {
