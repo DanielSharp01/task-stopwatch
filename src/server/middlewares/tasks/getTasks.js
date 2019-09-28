@@ -27,12 +27,12 @@ export default (objectRepository, type) => async (req, res, next) => {
     res.locals.tasks = (await Task.aggregate()
       .match({ userId: req.userId })
       .addFields({
-        stop: { $ifNull: ["$stop", new Date()] }
+        stopActual: { $ifNull: ["$stop", new Date()] }
       })
       .match({
         $nor: [
-          { $and: [{ start: { $lt: rangeStart } }, { stop: { $lt: rangeStart } }] },
-          { $and: [{ start: { $gte: rangeEnd } }, { stop: { $gte: rangeEnd } }] }
+          { $and: [{ start: { $lt: rangeStart } }, { stopActual: { $lt: rangeStart } }] },
+          { $and: [{ start: { $gte: rangeEnd } }, { stopActual: { $gte: rangeEnd } }] }
         ]
       })
       .lookup({ from: Tag.collection.name, localField: "tags", foreignField: "_id", as: "tagObjects" })).map(({ tagObjects, ...rest }) => ({
@@ -41,7 +41,6 @@ export default (objectRepository, type) => async (req, res, next) => {
     }));
     res.locals.range = { start: rangeStart, end: rangeEnd };
   } catch (err) {
-    console.error(err);
     return next({ status: 500 });
   }
 

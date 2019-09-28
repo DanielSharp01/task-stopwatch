@@ -36,7 +36,11 @@ export default class ContentEditable extends Component {
       return;
     }
 
-    this.onCancel();
+    if (this.state.editing) {
+      let valid = !this.props.validate || this.props.validate(this.state.editedText);
+      if (valid) this.onApply();
+      else this.onCancel();
+    }
   };
 
   onStartEditing = () => {
@@ -67,27 +71,13 @@ export default class ContentEditable extends Component {
   };
 
   render() {
-    let valid = !this.props.validate || this.props.validate(this.state.editedText);
     return (
       <div className="content-editable" onKeyDown={this.onKeyboard} ref={this.divRef}>
         {!this.state.editing ? (
           <div onDoubleClick={this.onStartEditing}>{this.props.text}</div>
         ) : (
           <React.Fragment>
-            <input
-              ref={this.inputRef}
-              size={this.state.editedText.length || (this.props.placeholder && this.props.placeholder.length)}
-              type="text"
-              onChange={this.onInputChanged}
-              value={this.state.editedText}
-              placeholder={this.props.placeholder}
-            />
-            <button onClick={this.onApply} disabled={!valid} className="slick green">
-              <i className="fas fa-check" />
-            </button>
-            <button onClick={this.onCancel} className="slick red">
-              <i className="fas fa-times" />
-            </button>
+            <input ref={this.inputRef} type="text" onChange={this.onInputChanged} value={this.state.editedText} placeholder={this.props.placeholder} />
           </React.Fragment>
         )}
       </div>

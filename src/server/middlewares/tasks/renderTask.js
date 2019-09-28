@@ -3,14 +3,6 @@ export default () => async (req, res, next) => {
     return next({ status: 404 });
   }
 
-  try {
-    if (res.locals.task.rectifyStopDate()) {
-      await res.locals.task.save();
-    }
-  } catch (err) {
-    return next({ status: 500 });
-  }
-
   const { _id, name, start, stop, tags, disabled } = res.locals.task;
 
   res.apiSend({

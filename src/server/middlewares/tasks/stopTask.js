@@ -6,6 +6,7 @@ export default () => async (req, res, next) => {
   try {
     await res.locals.task.save();
   } catch (err) {
+    console.error();
     return next({ status: 500 });
   }
   return next();

@@ -23,7 +23,6 @@ router.use((err, req, res, next) => {
   if (err.status) {
     res.status(err.status).send({ status: err.status, error: err.message });
   } else {
-    console.error(err);
     res.status(500).send({ status: 500, error: "Internal server error" });
   }
 });
