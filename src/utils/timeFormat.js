@@ -163,11 +163,11 @@ export function formatTime({ year, month, date, hour, minute, second, millisecon
 }
 
 export function yyyymmdd(string) {
-  const spl = string.split("_");
+  const spl = string.split("-");
   let year, month, date;
-  if (spl.length > 0) y = parseInt(spl[0]);
-  if (spl.length > 1) m = parseInt(spl[1]);
-  if (spl.length > 2) d = parseInt(spl[2]);
+  if (spl.length > 0) year = parseInt(spl[0]);
+  if (spl.length > 1) month = parseInt(spl[1]);
+  if (spl.length > 2) date = parseInt(spl[2]);
   return { year, month, date };
 }
 

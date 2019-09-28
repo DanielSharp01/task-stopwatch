@@ -1,5 +1,4 @@
 import auth from "./auth";
-import mongoose from "mongoose";
 
 export default () => (req, res, next) => {
   auth(false, false)(req, res, () => {

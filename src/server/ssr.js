@@ -8,9 +8,8 @@ import { StaticRouter } from "react-router-dom";
 import apiAuth from "./middlewares/apiAuth";
 import serialize from "serialize-javascript";
 
-import { getDays, getTasksForDay, renderDays } from "./middlewares/days";
 import { getTags, renderTags } from "./middlewares/tags";
-import { renderTasks } from "./middlewares/tasks";
+import { getTasks, renderTasks } from "./middlewares/tasks";
 
 import User from "./models/User";
 import Day from "./models/Day";
@@ -53,7 +52,7 @@ function callMiddlewareChainAsync(req, res, ...middlewares) {
 async function getInitialState(req, dateString) {
   let initialState = {};
 
-  let days = await callMiddlewareChainAsync(req, {}, apiAuth(), getDays(objectRepository), renderDays());
+  let days = await callMiddlewareChainAsync(Object.assign({ ...req }, { date: dateString }), {}, apiAuth(), getTasks(objectRepository, "day"), renderDays());
   initialState.days = days.reduce((acc, key) => {
     acc[key] = { lodaded: false };
     return acc;

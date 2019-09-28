@@ -3,9 +3,10 @@ import { yyyymmdd, packDate } from "../../../utils/timeFormat";
 
 export default (objectRepository, type) => async (req, res, next) => {
   const Task = objectRequire(objectRepository, "Task");
+  const Tag = objectRequire(objectRepository, "Tag");
   if (!req.params.date) return next({ status: 400, message: "No date param" });
   const ymd = yyyymmdd(req.params.date);
-  if (!date.y) return next({ status: 400, message: "Date must be in the yyyy-mm-dd format." });
+  if (!ymd.year) return next({ status: 400, message: "Date must be in the yyyy-mm-dd format." });
   const date = packDate(ymd);
 
   let rangeStart, rangeEnd; // End is not inclusive
@@ -23,16 +24,24 @@ export default (objectRepository, type) => async (req, res, next) => {
   }
 
   try {
-    res.locals.tasks = Task.aggregate({
-      $project: {
-        stop: {
-          $ifNull: ["$stop", new Date()]
-        }
-      }
-    }).find({
-      $nor: [{ $and: [{ start: { $lt: rangeStart } }, { stop: { $lt: rangeStart } }] }, { $and: [{ start: { $gte: rangeEnd } }, { stop: { $gte: rangeEnd } }] }]
-    });
+    res.locals.tasks = (await Task.aggregate()
+      .match({ userId: req.userId })
+      .addFields({
+        stop: { $ifNull: ["$stop", new Date()] }
+      })
+      .match({
+        $nor: [
+          { $and: [{ start: { $lt: rangeStart } }, { stop: { $lt: rangeStart } }] },
+          { $and: [{ start: { $gte: rangeEnd } }, { stop: { $gte: rangeEnd } }] }
+        ]
+      })
+      .lookup({ from: Tag.collection.name, localField: "tags", foreignField: "_id", as: "tagObjects" })).map(({ tagObjects, ...rest }) => ({
+      ...rest,
+      tags: tagObjects
+    }));
+    res.locals.range = { start: rangeStart, end: rangeEnd };
   } catch (err) {
+    console.error(err);
     return next({ status: 500 });
   }
 
