@@ -1,4 +1,4 @@
-export default (objectRepository) => async (req, res, next) => {
+export default objectRepository => async (req, res, next) => {
   const Task = objectRequire(objectRepository, "Task");
   const Tag = objectRequire(objectRepository, "Tag");
 
