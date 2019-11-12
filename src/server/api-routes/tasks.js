@@ -23,7 +23,7 @@ export default (router, objectRepository) => {
 
   router.post("/tasks", apiAuth(), createTask(objectRepository), renderTask());
   router.get("/tasks/:id", apiAuth(), getTask(objectRepository), renderTask());
-  router.patch("/tasks/:id", apiAuth(), getTask(objectRepository), changeTask(), renderTask());
+  router.patch("/tasks/:id", apiAuth(), getTask(objectRepository), changeTask(objectRepository), renderTask());
   router.delete("/tasks/:id", apiAuth(), getTask(objectRepository), deleteTask(), renderTask());
 
   // Higher level APIs
