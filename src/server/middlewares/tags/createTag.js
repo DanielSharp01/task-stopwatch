@@ -1,3 +1,5 @@
+import { objectRequire } from "../../../utils/objectUtils";
+
 export default objectRepository => async (req, res, next) => {
   const Tag = objectRequire(objectRepository, "Tag");
 

@@ -1,3 +1,5 @@
+import { objectRequire } from "../../../utils/objectUtils";
+
 export default objectRepository => async (req, res, next) => {
   const Task = objectRequire(objectRepository, "Task");
   const Tag = objectRequire(objectRepository, "Tag");
@@ -13,7 +15,6 @@ export default objectRepository => async (req, res, next) => {
     const overlaps = await Task.find({ userId: req.userId, $and: [ { stop: { $gt: res.locals.task.start } }, { start: { $lt: res.locals.task.stop } } ] });
     if (overlaps.length > 0) return next({ status: 400, message: "Tasks cannot overlap" });
   }
-  console.log('Loggero');
 
   if (typeof req.body.tags !== "undefined") {
     let resolvedTags = [];
