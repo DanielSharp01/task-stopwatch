@@ -9,10 +9,11 @@ export default objectRepository => async (req, res, next) => {
   if (typeof req.body.stop !== "undefined") res.locals.task.stop = req.body.stop && new Date(req.body.stop);
   
   if (req.body.start) {
-    if (req.body.start > req.body.stop) return next({ status: 400, message: "Task start must be before stop" });
-    const overlaps = await Task.find({ userId: req.userId, $and: [ { stop: { $gt: req.body.start } }, { start: { $lt: req.body.stop } } ] });
+    if (res.locals.task.start > res.locals.task.stop) return next({ status: 400, message: "Task start must be before stop" });
+    const overlaps = await Task.find({ userId: req.userId, $and: [ { stop: { $gt: res.locals.task.start } }, { start: { $lt: res.locals.task.stop } } ] });
     if (overlaps.length > 0) return next({ status: 400, message: "Tasks cannot overlap" });
   }
+  console.log('Loggero');
 
   if (typeof req.body.tags !== "undefined") {
     let resolvedTags = [];
