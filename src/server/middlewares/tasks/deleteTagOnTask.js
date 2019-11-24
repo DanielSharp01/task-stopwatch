@@ -5,7 +5,6 @@ export default objectRepository => async (req, res, next) => {
   let promises = [];
 
   if (!req.params.tagname) return next({ status: 400, message: "No tagname param" });
-  if (typeof req.body.name !== "string" && !req.body.name) return next({ status: 400, message: "No name property" });
   if (!res.locals.task) return next({ status: 400, message: "No task for user" });
   let index = res.locals.task.tags.findIndex(tag => tag.name === req.params.tagname);
   if (index === -1) return next({ status: 400, message: "No such tag on task" });
