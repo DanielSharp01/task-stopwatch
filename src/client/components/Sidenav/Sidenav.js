@@ -42,18 +42,18 @@ function Sidenav(props) {
                 let isToday = month.year === today.getFullYear() && month.month === today.getMonth() + 1 && day.number === today.getDate();
                 return (
                   <p key={day.number}>
-                    <NavLink activeClassName="active" to={`/task-stopwatch/${!isToday ? day.str : ""}`} exact={isToday}>
+                    <NavLink activeClassName="active" to={`/${!isToday ? day.str : ""}`} exact={isToday}>
                       {day.number}
                       <sup>
                         {Math.floor(day.number / 10) === 1
                           ? "th"
                           : day.number % 10 === 1
-                          ? "st"
-                          : day.number % 10 === 2
-                          ? "nd"
-                          : day.number % 10 === 3
-                          ? "rd"
-                          : "th"}
+                            ? "st"
+                            : day.number % 10 === 2
+                              ? "nd"
+                              : day.number % 10 === 3
+                                ? "rd"
+                                : "th"}
                       </sup>{" "}
                       {isToday && " (Today)"}
                     </NavLink>

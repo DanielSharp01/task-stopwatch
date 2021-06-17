@@ -13,7 +13,7 @@ export const CHANGE_TAG_ON_TASK = "CHANGE_TAG_ON_TASK";
 export function fetchTasks(dateString) {
   return async (dispatch, getState) => {
     try {
-      let result = await fetch(`/task-stopwatch/api/tasks/day/${dateString}`);
+      let result = await fetch(`/api/tasks/day/${dateString}`);
       let json = await result.json();
       dispatch(recieveTasks(dateString, json.result));
     } catch (err) {
@@ -47,7 +47,7 @@ export function newTask(name, tags) {
       let stopId = Object.keys(tasks).find(key => !tasks[key].stop);
       if (stopId) dispatch(stopTask(stopId));
       dispatch(newTaskStore(tempId, name, now.getTime(), tags));
-      let result = await fetch(`/task-stopwatch/api/tasks/start`, {
+      let result = await fetch(`/api/tasks/start`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -86,7 +86,7 @@ export function changeTask(id, name) {
     const oldName = tasks[id].name;
     try {
       dispatch(changeTaskStore(id, name));
-      let result = await fetch(`/task-stopwatch/api/tasks/${id}`, {
+      let result = await fetch(`/api/tasks/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -118,7 +118,7 @@ export function stopTask(id) {
   return async (dispatch, getState) => {
     try {
       dispatch(stopTaskStore(id, now.getTime()));
-      let result = await fetch(`/task-stopwatch/api/tasks/${id}/stop`, {
+      let result = await fetch(`/api/tasks/${id}/stop`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -158,7 +158,7 @@ export function deleteTask(id) {
   return async (dispatch, getState) => {
     dispatch(deleteTaskStore(id));
     try {
-      await fetch(`/task-stopwatch/api/tasks/${id}`, {
+      await fetch(`/api/tasks/${id}`, {
         method: "DELETE"
       });
     } catch (err) {
@@ -180,7 +180,7 @@ export function addTagOnTask(id, name, color) {
   return async (dispatch, getState) => {
     try {
       dispatch(addTagOnTaskStore(id, name, color));
-      let result = await fetch(`/task-stopwatch/api/tasks/${id}/tags`, {
+      let result = await fetch(`/api/tasks/${id}/tags`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -215,7 +215,7 @@ export function changeTagOnTask(id, name, nextName) {
     try {
       const { tags } = getState();
       dispatch(changeTagOnTaskStore(id, name, nextName));
-      let result = await fetch(`/task-stopwatch/api/tasks/${id}/tags/${name}`, {
+      let result = await fetch(`/api/tasks/${id}/tags/${name}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"

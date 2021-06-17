@@ -22,9 +22,9 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use("/task-stopwatch/api", apiRouter);
+app.use("/api", apiRouter);
 app.use(auth());
-app.use("/task-stopwatch", express.static("public"));
+app.use(express.static("public"));
 
 ssr(app);
 

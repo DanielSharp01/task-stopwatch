@@ -56,7 +56,7 @@ async function getInitialState(req, dateString) {
 }
 
 export default app => {
-  app.use("/task-stopwatch/:dateString?", async (req, res, next) => {
+  app.use("/:dateString?", async (req, res, next) => {
     let initialState = await getInitialState(req, req.params.dateString || formatTime(getDateParts(new Date()), "YYYY-MM-DD"));
     let loggedInUser = await User.findOne({ _id: req.userId });
     if (!loggedInUser) return next("There was an error!");
@@ -74,7 +74,7 @@ export default app => {
           integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
           crossorigin="anonymous"
         />
-        <link href="/task-stopwatch/style.css" rel="stylesheet" />
+        <link href="/style.css" rel="stylesheet" />
         <title>Task Stopwatch</title>
         <script>
           window.__INITIAL_STATE__=${serialize(initialState, { isJSON: true })}
@@ -82,13 +82,13 @@ export default app => {
       </head>
       <body>
         <div id="root">${renderToString(
-          <StaticRouter location={req.originalUrl} context={{}}>
-            <Provider store={createStore(reducer, initialState)}>
-              <Routes />
-            </Provider>
-          </StaticRouter>
-        )}</div>
-        <script src="/task-stopwatch/main.js"></script>
+      <StaticRouter location={req.originalUrl} context={{}}>
+        <Provider store={createStore(reducer, initialState)}>
+          <Routes />
+        </Provider>
+      </StaticRouter>
+    )}</div>
+        <script src="/main.js"></script>
       </body>
     </html>`;
     res.send(html);

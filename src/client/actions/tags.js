@@ -32,7 +32,7 @@ export function changeTagColor(name, nextColor) {
     const oldColor = tags[name].color;
     try {
       dispatch(changeTagColorStore(name, nextColor));
-      let result = await fetch(`/task-stopwatch/api/tags/${name}`, {
+      let result = await fetch(`/api/tags/${name}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
