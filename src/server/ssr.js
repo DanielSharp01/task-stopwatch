@@ -65,6 +65,7 @@ export default app => {
     let html = `<!DOCTYPE html>
     <html lang="en">
       <head>
+      <base href="/task-stopwatch/">
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet" />
@@ -74,7 +75,7 @@ export default app => {
           integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
           crossorigin="anonymous"
         />
-        <link href="/style.css" rel="stylesheet" />
+        <link href="style.css" rel="stylesheet" />
         <title>Task Stopwatch</title>
         <script>
           window.__INITIAL_STATE__=${serialize(initialState, { isJSON: true })}
@@ -88,7 +89,7 @@ export default app => {
         </Provider>
       </StaticRouter>
     )}</div>
-        <script src="/main.js"></script>
+        <script src="main.js"></script>
       </body>
     </html>`;
     res.send(html);
