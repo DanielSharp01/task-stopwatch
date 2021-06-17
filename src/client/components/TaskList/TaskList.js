@@ -10,7 +10,6 @@ import { formatTime, getDateParts } from "../../../utils/timeFormat";
 class TaskList extends Component {
   componentDidUpdate() {
     if (!this.props.loaded) {
-      console.log("Does it even try");
       this.props.fetchTasks();
     }
   }
@@ -43,9 +42,10 @@ class TaskList extends Component {
 
 const mapStateToProps = ({ days, tasks }, { dateString }) => {
   const todayDateString = formatTime(getDateParts(Date.now()), "YYYY-MM-DD");
+  console.log(dateString, todayDateString);
   return {
-    tasks: days[dateString].loaded ? days[dateString].tasks.filter(id => !tasks[id].disabled).map(id => tasks[id]) : [],
-    loaded: days[dateString].loaded,
+    tasks: days[dateString]?.loaded ? days[dateString].tasks.filter(id => !tasks[id].disabled).map(id => tasks[id]) : [],
+    loaded: days[dateString]?.loaded,
     readOnly: dateString !== todayDateString
   };
 };

@@ -8,7 +8,6 @@ class TagTimeModule extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.stopped);
     if (!this.props.stopped) {
       this.handle = requestAnimationFrame(this.rerender);
     }
@@ -56,12 +55,12 @@ const mapStateToProps = ({ days, tasks, tags }, { tag, dateString }) => {
   const now = Date.now();
   return {
     tag: tags[tag],
-    taskTimes: days[dateString].loaded
+    taskTimes: days[dateString]?.loaded
       ? days[dateString].tasks
-          .filter(id => !tasks[id].disabled && tasks[id].tags.find(t => t === tag))
-          .map(id => ({ start: tasks[id].start, stop: tasks[id].stop }))
+        .filter(id => !tasks[id].disabled && tasks[id].tags.find(t => t === tag))
+        .map(id => ({ start: tasks[id].start, stop: tasks[id].stop }))
       : [],
-    stopped: days[dateString].loaded ? days[dateString].tasks.filter(id => !tasks[id].stop).length === 0 : true
+    stopped: days[dateString]?.loaded ? days[dateString].tasks.filter(id => !tasks[id].stop).length === 0 : true
   };
 };
 
